@@ -1,0 +1,62 @@
+extends layout
+
+block content
+    div.mui-container-fluid.mui--divider-top
+        div.mui-row
+            div.mui-col-md-12 &nbsp;
+        div.mui-row
+            div.mui-col-md-2
+            div.mui-col-md-8.mui-panel
+                form.mui-form--inline(method="GET" action="/item/")
+                    div.mui-textfield
+                        input(type="text", name="term", placeholder="Part of item name or id", value=term)
+                    button.mui-btn Item Search
+
+
+    if items.length == 0 && term
+        div
+            | No items found,
+            +space
+            a(href="/mob/?term=" + term) looking for a mob
+            +space
+            | ?
+    else
+        if hasMore
+            div.mui-panel First #{items.length} results:
+        else
+            if items.length > 1
+                div.mui-panel #{items.length} results:
+
+        each item in items
+            div.mui-container-fluid
+                div.mui-row
+                    div.mui-col-md-2
+                    div.mui-col-md-8.mui-panel
+                        div.mui-container-fluid
+                            div.mui-row
+                                div.mui-col-md-12
+                                    h3
+                                        img(src="https://img.free-ro.com/item/small/" +item.id + ".png", alt=item.name)
+                                        +space
+                                        a(href="/item/" + item.id + "/" + item.urlName) ##{item.id}
+                                        +space
+                                        | #{item.fullName} / #{item.buy}z
+                            div.mui-row
+                                div.mui-col-md-12
+                                    span &nbsp;
+                            div.mui-row
+                                div.mui-col-md-1
+                                div.mui-col-md-10
+                                    p.item-description !{item.description}
+                                    p.item-script.mui--text-dark-secondary !{item.script.replace(/</g,'&lt;').replace(/\n/g,'<br/>')}
+                            div.mui-row
+                                div.mui-col-md-1
+                                div.mui-col-md-11
+                                    ol.whodrop
+                                        each drop in item.orderedDrop
+                                            li.whodrop-item
+                                                a.whodrop-link(href="/mob/" + drop.mob.id + "/" + drop.mob.sprite) #{drop.mob.name}
+                                                span.whodrop-percent #{drop.percent}%
+                            div.mui-row
+                                div.mui-col-md-12
+                                    span &nbsp;

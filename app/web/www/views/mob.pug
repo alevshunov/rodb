@@ -1,0 +1,68 @@
+extends layout
+
+block content
+    div.mui-container-fluid.mui--divider-top
+        div.mui-row
+            div.mui-col-md-12 &nbsp;
+        div.mui-row
+            div.mui-col-md-2
+            div.mui-col-md-8.mui-panel
+                form.mui-form--inline(method="GET" action="/mob/")
+                    div.mui-textfield
+                        input(type="text", name="term", placeholder="Part of mob name or id", value=term)
+                    button.mui-btn Mob Search
+
+    if mobs.length == 0 && term
+        div
+            | No mobs found,
+            +space
+            a(href="/item/?term=" + term) looking for an item
+            +space
+            | ?
+    else
+        if hasMore
+            div.mui-panel First #{mobs.length} results:
+        else
+            if mobs.length > 1
+                div.mui-panel #{mobs.length} results:
+
+        each mob in mobs
+            div.mui-container-fluid
+                div.mui-row
+                    div.mui-col-md-2
+                    div.mui-col-md-8.mui-panel
+                        div.mui-container-fluid
+                            div.mui-row
+                                div.mui-col-md-12
+                                    h3
+                                        a(href="/mob/" + mob.id + "/" + mob.sprite) ##{mob.id}
+                                        +space
+                                        | #{mob.name} / #{mob.sprite} / #{mob.race.name} / #{mob.element.name} #{mob.element.level}
+
+                            div.mui-row
+                                div.mui-col-md-4
+                                    img.mob-icon(src="https://img.free-ro.com/base/mob/" + mob.id + ".gif")
+                                    div #{mob.race.name}
+                                    div #{mob.element.name} #{mob.element.level}
+                                    div &nbsp;
+                                    div HP: #{mob.hp}
+                                    div EXP: #{mob.exp} / #{mob.jexp}
+                                    div DEF: #{mob.def}
+                                    div MDEF: #{mob.mdef}
+                                div.mui-col-md-5
+                                    ol.drop
+                                        each drop in mob.orderedDrop
+                                            li.drop-item
+                                                img.drop-icon(src="https://img.free-ro.com/item/small/" + drop.item.id + ".png")
+                                                a.drop-link(href="/item/" + drop.item.id + "/" + drop.item.urlName) #{drop.item.fullName}
+                                                span.drop-percent #{drop.percent} %
+                                div.mui-col-md-3
+                                    table.nospace(cellspacing="0", cellpadding="0", border="0")
+                                        each res in mob.element.resistance
+                                            tr
+                                                td.resistance-name #{res.versus.name}
+                                                td.resistance-value
+                                                    span(class="r__ r__" + res.multiplier) #{res.multiplier} %
+                                div.mui-row
+                                    div.mui-col-md-12
+                                        span &nbsp;

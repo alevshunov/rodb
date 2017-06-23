@@ -1,0 +1,39 @@
+mixin space()
+    | !{' '}
+
+<!doctype html>
+html
+    head
+        meta(charset="utf-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1")
+        meta(name="description", content=description)
+        meta(name="keywords", content="ro, ragnarok, рагнарок, database, db, база, eathena, rathena" + (!keywords ? '' : ', ' + keywords))
+        link(rel="shortcut icon", href="/static/favicon.ico", type="image/x-icon")
+        link(href="/static/main.css", rel="stylesheet", type="text/css")
+        link(href="//cdn.muicss.com/mui-0.9.17/css/mui.min.css", rel="stylesheet", type="text/css")
+        <!--<script src="//cdn.muicss.com/mui-0.9.17/js/mui.min.js"></script>-->
+        title #{title}
+    body
+        header.mui-appbar.mui--z1
+            div.mui-container
+                table(width="100%")
+                    tr.mui--appbar-height
+                        td.mui--text-title
+                            a(href="/") rodb.kudesnik.cc
+                        td(align="right")
+                            ul.mui-list--inline.mui--text-body2
+                                li
+                                    a(href="/mob/") Mobs
+                                li
+                                    a(href="/item/") Items
+        div#content-wrapper.mui--text-center
+            div.mui--appbar-height
+            block content
+                p This page doesn't have any content yet.
+        footer
+            div.mui-container.mui--text-center
+                | Made with ♥ by
+                +space
+                a(href="https://www.muicss.com") MUICSS
+                | .
